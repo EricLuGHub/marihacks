@@ -1,9 +1,30 @@
 .Ticker {
+  overflow: hidden;
+}
+
+.TickerElementHolder {
   display: flex;
   align-items: center;
-  overflow: hidden;
   flex-wrap: nowrap;
   white-space: nowrap;
   gap: 1rem;
   padding: .5rem 1rem;
+  animation: 100s linear 0s infinite scroll;
+}
+
+.Ticker * {
+  color: red;
+}
+
+.Ticker *[up=true] {
+  color: lime;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX();
+  }
+  to {
+    transform: translateX(-200rem);
+  }
 }
