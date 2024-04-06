@@ -42,10 +42,6 @@
 .Ranking:nth-child(4), .Ranking:nth-child(5) {
   background-color: #555;
 }
-/* 
-.Ranking::marker {
-  content: counter(rankingCounter);
-} */
 
 .Ranking::before {
   content: counter(rankingCounter);
