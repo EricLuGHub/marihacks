@@ -123,4 +123,40 @@ for key in trade:
     new_value = trade[key] + count_contrabro[key]
     trade[key] = new_value
 
-trade
+
+volume = {}
+
+for bro_num in brokers:
+    bro_exec1 = exec[exec["Broker"] == bro_num]
+    bro_exec2 = exec[exec["Contra Broker"] == bro_num]
+    total = bro_exec1["Executed Shares"].sum() + bro_exec2["Executed Shares"].sum()
+    volume[bro_num] = total
+
+
+ratio = {}
+
+for key in notional:
+    try:
+        r = notional[key] / trade[key]
+        ratio[key] = r
+
+    except ZeroDivisionError:
+        ratio[key] = 0
+
+
+criterias = [count_contrabro, notional, scorePerTransaction, trade, volume, ratio]
+
+size = len(brokers)
+initial_scores = [0.0] * size
+scores = dict(zip(brokers, initial_scores))
+
+for crit in criterias:
+    crit_val = list(crit.values())
+    mean = np.mean(crit_val)
+    std = np.std(crit_val)
+
+    for bk in crit:
+        z = (crit[bk] - mean) * (size ** 0.5)/std
+        scores[bk] += z
+
+print(scores)
