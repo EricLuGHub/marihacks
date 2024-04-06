@@ -1,0 +1,9 @@
+.Ticker {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: 1rem;
+  padding: .5rem 1rem;
+}
