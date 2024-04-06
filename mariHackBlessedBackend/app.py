@@ -21,7 +21,7 @@ incrementedTime = 0
 
 def fetch_data_and_store():
     global incrementedTime
-    incrementedTime += 2
+    incrementedTime += 20
 
     original_time_str = "2020-01-30 09:30:00.010000000"
 
