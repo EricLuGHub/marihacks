@@ -10,7 +10,7 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/bankHack"
 mongo = PyMongo(app)
 
 def computeBrokerIndex():
-    
+
 
 
     return 1
@@ -72,6 +72,7 @@ def getTopBrokers():
 
 @app.route('/getRecentTrades')
 def getRecentTrades():
+
     return 'Hello, World!'
 
 
