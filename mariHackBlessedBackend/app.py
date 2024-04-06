@@ -13,8 +13,7 @@ mongo = PyMongo(app)
 
 
 def computeBrokerIndex():
-    return 1
-
+   return
 
 incrementedTime = 0
 

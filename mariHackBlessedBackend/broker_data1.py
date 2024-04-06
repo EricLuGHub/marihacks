@@ -3,12 +3,17 @@ import pandas as pd
 import scipy as sp
 import matplotlib.pyplot as plt
 import json
+from pymongo import MongoClient
+
+client = MongoClient('mongodb://localhost:27017/')
+db = client['bankHack']
 
 
-data = pd.read_csv("chix.csv", sep = ";")
+mongoDataRes = list(db['bankHack_mock'].find({}))
+data = pd.DataFrame(mongoDataRes)
 
-with open('bankHack.json', 'r') as file:
-    data2 = json.load(file)
+
+data2 = list(db['bankHack_mock'].find({}))
 
 
 c = list(pd.unique(data["Contra Broker"].dropna()))
@@ -56,8 +61,15 @@ for i in range(len(data2)):
 del notional[1]
 
 
-for i in range(len(data2)):
-    data2[i]['Time Stamp'] = data2[i]['Time Stamp']['$numberLong'][:-6]
+
+for doc in data2:
+    # Directly convert the 'Time Stamp' to int if it's not already one
+    # Assuming 'Time Stamp' is stored as an Int64 and you need it as a standard Python int
+    doc['Time Stamp'] = int(doc['Time Stamp'])
+
+
+
+
 
 for i in range(len(data2)):
     data2[i]['Time Stamp'] = (int)(data2[i]['Time Stamp'])
@@ -146,6 +158,8 @@ for key in notional:
 
 criterias = [count_contrabro, notional, scorePerTransaction, trade, volume, ratio]
 
+print(scorePerTransaction)
+
 size = len(brokers)
 initial_scores = [0.0] * size
 scores = dict(zip(brokers, initial_scores))
@@ -159,4 +173,3 @@ for crit in criterias:
         z = (crit[bk] - mean) * (size ** 0.5)/std
         scores[bk] += z
 
-print(scores)
